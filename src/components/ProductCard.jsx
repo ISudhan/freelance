@@ -1,30 +1,29 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export default function ProductCard({ p, index }) {
+export default function ProductCard({ p }) {
+  if (!p) return null;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
-      className="group relative border rounded-2xl shadow-lg overflow-hidden transform transition hover:scale-105 duration-500 bg-white"
+      className="bg-white border border-amber-100 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-transform duration-500"
+      whileHover={{ scale: 1.05 }}
     >
-      <img
-        src={p.image || "/placeholder.jpg"}
-        alt={p.title}
-        className="w-full h-64 object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-110"
-      />
+      <Link to={`/product/${p.id}`}>
+        <div className="relative w-full aspect-[4/5]">
+          <img
+            src={p.image || "/placeholder.jpg"}
+            alt={p.title}
+            className="w-full h-full object-cover rounded-t-3xl"
+          />
+        </div>
 
-      <div className="p-4 space-y-2">
-        <h3 className="text-lg font-semibold text-gray-900">{p.title}</h3>
-        <p className="text-sm text-gray-500">{p.brand}</p>
-        <p className="text-amber-600 font-bold text-lg">₹{p.price}</p>
-      </div>
-
-      <div className="absolute inset-0 bg-amber-50/30 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-        <button className="px-6 py-2 bg-amber-600 text-white font-semibold rounded-full shadow-md hover:bg-amber-500 transition transform hover:scale-105 duration-500">
-          View Product
-        </button>
-      </div>
+        <div className="p-4">
+          <h3 className="text-amber-600 font-semibold text-lg mb-1">{p.title}</h3>
+          <p className="text-gray-700 mb-2">{p.brand}</p>
+          <p className="text-gray-900 font-bold">₹{p.price}</p>
+        </div>
+      </Link>
     </motion.div>
   );
 }

@@ -1,36 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function SearchBox({ placeholder = "Search products...", onSearch }) {
-  const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState(query);
-
-  // Debounce input
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedQuery(query), 300);
-    return () => clearTimeout(handler);
-  }, [query]);
-
-  useEffect(() => {
-    if (onSearch) onSearch(debouncedQuery);
-  }, [debouncedQuery]);
+export default function SearchBox({ onSearch }) {
+  const [val, setVal] = useState("");
 
   return (
-    <div className="w-full max-w-md mx-auto relative">
+    <div className="flex gap-3 w-full max-w-md mx-auto">
       <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder={placeholder}
-        className="w-full p-4 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-300 text-gray-900"
+        value={val}
+        onChange={(e) => setVal(e.target.value)}
+        placeholder="Search products..."
+        className="flex-1 px-4 py-3 rounded-full border border-gray-300 shadow-sm text-gray-900 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-300"
       />
-      {query && (
-        <button
-          onClick={() => setQuery("")}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition"
-        >
-          ✖
-        </button>
-      )}
+      <button
+        onClick={() => onSearch(val)}
+        className="px-6 py-3 rounded-full bg-amber-600 text-white font-semibold shadow-md hover:bg-amber-500 hover:scale-105 transition-transform duration-300"
+      >
+        Search
+      </button>
     </div>
   );
 }

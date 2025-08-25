@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
-import ProductCard from "../components/ProductCard";
 import { motion } from "framer-motion";
 
 export default function Wishlist() {
-  // Example: using localStorage or dummy data
   const [wishlist, setWishlist] = useState([]);
 
-  useEffect(() => {
-    // Replace with localStorage retrieval if needed
-    const stored = JSON.parse(localStorage.getItem("wishlist")) || [
-      { id: 1, title: "Banarasi Saree", brand: "Mona", price: 6000, image: "/images/saree1.avif" },
-      { id: 2, title: "Silk Kurta", brand: "Mona", price: 2500, image: "/images/kurta1.avif" },
-    ];
+  // Load wishlist from localStorage
+  const loadWishlist = () => {
+    const stored = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlist(stored);
+  };
+
+  useEffect(() => {
+    loadWishlist();
+    // Listen for changes in localStorage (multi-tab support)
+    const handleStorage = () => loadWishlist();
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   const removeItem = (id) => {
@@ -22,7 +25,7 @@ export default function Wishlist() {
   };
 
   return (
-    <section className="py-20 bg-white text-gray-900">
+    <section className="py-20 bg-white text-gray-900 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <h1 className="text-4xl font-extrabold mb-2 text-gray-900">Your Wishlist</h1>
         <p className="text-gray-700 mb-6">Browse your saved items and manage your favorites.</p>
@@ -38,14 +41,27 @@ export default function Wishlist() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
-                className="relative group"
+                className="relative group rounded-3xl overflow-hidden shadow-lg border border-amber-100 hover:shadow-2xl transition-all duration-500"
               >
-                <ProductCard p={item} />
+                {/* Product Image */}
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full aspect-[4/5] object-cover rounded-t-3xl"
+                />
 
-                {/* Remove button */}
+                {/* Product Info */}
+                <div className="p-4 bg-white">
+                  <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                  <p className="text-gray-600 mt-1">{item.brand}</p>
+                  <p className="text-amber-600 font-semibold text-xl mt-2">₹ {item.price}</p>
+                </div>
+
+                {/* Remove Button */}
                 <button
                   onClick={() => removeItem(item.id)}
                   className="absolute top-3 right-3 bg-white text-red-600 p-2 rounded-full shadow hover:scale-110 transition-transform duration-300"
+                  title="Remove from wishlist"
                 >
                   ✖
                 </button>

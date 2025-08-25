@@ -2,24 +2,27 @@ import { motion } from "framer-motion";
 
 export default function About() {
   const milestones = [
-    { year: "1995", title: "Founded", desc: "Mona Textiles was established to bring luxury fabrics to every home." },
-    { year: "2005", title: "First Store", desc: "Opened our flagship store showcasing premium sarees and fabrics." },
-    { year: "2015", title: "Online Presence", desc: "Launched our online platform to reach customers globally." },
+    { year: "2015", title: "Founded", desc: "Mona Textiles was established to bring luxury fabrics and designer sarees to every home." },
+    { year: "2017", title: "First Boutique", desc: "Opened our first boutique showcasing premium fabrics and curated collections." },
+    { year: "2020", title: "Online Presence", desc: "Launched our online store to reach customers globally with luxury fabrics." },
     { year: "2023", title: "Luxury Collection", desc: "Introduced exclusive designer collections and collaborations." },
   ];
 
   return (
     <section className="py-20 bg-white text-gray-900">
       <div className="max-w-7xl mx-auto px-6">
+
         {/* Heading */}
         <motion.h1
-          className="text-5xl font-extrabold mb-6 text-center tracking-tight"
+          className="text-5xl font-extrabold mb-6 text-center tracking-tight text-gray-900"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           About Mona Textiles
         </motion.h1>
+
+        {/* Subtitle */}
         <motion.p
           className="text-lg text-gray-700 mb-12 text-center max-w-3xl mx-auto"
           initial={{ opacity: 0 }}
@@ -31,7 +34,9 @@ export default function About() {
 
         {/* Timeline */}
         <div className="relative">
+          {/* Central line */}
           <div className="border-l-2 border-amber-200 absolute h-full left-1/2 transform -translate-x-1/2"></div>
+
           <div className="space-y-12">
             {milestones.map((m, i) => (
               <motion.div
